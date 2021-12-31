@@ -1,0 +1,89 @@
+{% extends "core_layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'research_core/css/site_index.css' %}">
+{% endblock head %}
+
+{% block body %}
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'research_core/img/NK_card_img.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h4>DPRK Research</h4>
+          <p>Some representative placeholder content for the first slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'research_core/img/economic-development-carousel.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h4>Development Economics</h4>
+          <p>Some representative placeholder content for the second slide.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div>
+    <div class="into-title-div">
+        <h1>How do we build ideas? How do we make sure our opinions are reflective of an underlying reality?</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At ea consequatur aspernatur, officia provident nihil illo eveniet vitae perferendis aut, commodi dolore repellendus impedit tempora eligendi suscipit expedita ipsam. Ipsum?</p>
+        <u><h3>View What I am Actively Researching:</h3></u>
+    </div> 
+    
+    <div class="research-cards">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+              <div class="card">
+                <img src="{% static 'research_core/img/NK_card_img.jpg' %}" class="card-img-top card-image-styling" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Readings on North Korea</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <img src="{% static 'research_core/img/economic-development-carousel.jpg' %}" class="card-img-top card-image-styling" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Readings on the Economics of Development</h5>
+                  <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>   
+
+    <div>
+
+        <div class="into-title-div">
+            <u><h3>My Writings, Mostly OP-Eds:</h3></u>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis facere, unde nulla mollitia animi temporibus amet voluptate. Soluta repellat molestiae cum natus nemo ex in nihil laboriosam debitis libero. Rerum.</p>
+        </div>
+        
+        <div id="carouselWriting" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner text-center">
+              <div class="carousel-item active">
+                <div class="carousel-caption d-none d-md-block h-50">
+                    <button type="button" class="btn btn-light"><h4>Read My Articles</h4></button>
+                  </div>
+                <img src="{% static 'research_core/img/blog_carousel.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,30 @@
+/* Styling the header carousel: */
+.carousel-img{
+    height: 60vh;
+    object-fit: cover;
+}
+/* Styling for the intro text div */
+.into-title-div{
+    margin: 5vh;
+    text-align: center;
+}
+.into-title-div p {
+    margin-top: 4vh;
+}
+.into-title-div h3 {
+    margin-top: 6vh;
+}
+
+/* Styling for the larger research card section */
+.research-cards{
+    margin: 5vh;
+}
+.card-image-styling {
+    height: 30vh;
+    object-fit: cover;
+}
+
+/* Styling for the blog carousel */
+#carouselWriting{
+    margin-bottom: 1vh;
+}
