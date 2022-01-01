@@ -1,0 +1,10 @@
+{% extends "core_layout.html" %}
+{% load static %}
+
+{% block body %}
+<div>
+    {% if calendar_heatmap %}
+    {{calendar_heatmap|safe}}
+    {% endif %}
+</div>
+{% endblock body %}
