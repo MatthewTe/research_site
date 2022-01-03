@@ -1,0 +1,65 @@
+{% extends "core_layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'research_core/css/research_topic.css' %}">
+{% endblock head %}
+
+{% block body %}
+<div>
+
+    <div class="main_header">
+        <h1>{{topic.topic}}</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum minima, labore excepturi tenetur placeat distinctio nam magni sed, nulla reiciendis, expedita ipsum debitis! Velit ipsa nostrum ut earum magnam fugit.</p>
+    </div>
+    <div>
+        {% if calendar_heatmap %}
+        {{calendar_heatmap|safe}}
+        {% endif %}    
+    </div>    
+    <div class="grid">
+        <div class="grid_col">
+            <h3>My Top 3 {{topic.topic}} Sources</h3>
+            <ul>
+                <li><h4>Test Source 1</h4></li>
+                <li><h4>Test Source 2</h4></li>
+                <li><h4>Test Source 3</h4></li>
+            </ul>
+        </div>
+        <div class="grid_col">
+            <h3>My Top 3 {{topic.topic}} Authors</h3>
+            <ul>
+                <li><h4>Test Author 1</h4></li>
+                <li><h4>Test Author 2</h4></li>
+                <li><h4>Test Author 3</h4></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sources_read">
+        {% for source in page_obj %}
+        <div class="source">
+            <h3>{{source.title}}</h3>
+        </div>
+        {% endfor %}
+
+        <div class="paginations">
+            <span class="">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+    </div>
+</div>
+{% endblock body %}

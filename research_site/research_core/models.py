@@ -33,7 +33,7 @@ class Topic(models.Model):
     topic = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.title
+        return self.topic
 
 class Publication(models.Model):
     """The model for the publications that are assocaited with Authors and their sources.
@@ -65,18 +65,24 @@ class Author(models.Model):
     to connect to Sources and Publication database models in a Many-to-One relationships. 
 
     Args:
-        name (models.CharField): The name of the author.
+        firstname (models.CharField): The first name of the author.
+        
+        middlename (models.CharField): The middle name of the author
+        
+        lastname (models.CharField): The last name of the author
         
         publication (models.ForeignKey): The Many-to-One relationship connecting the author to
             their publication. An author can only be connected to one Publication but a publication
             can have many authors.
 
     """
-    name = models.CharField(max_length=50)
+    firstname = models.CharField(max_length=50, null=True, blank=True)
+    middlename = models.CharField(max_length=50, null=True, blank=True)
+    lastname = models.CharField(max_length=50)
     publication = models.ForeignKey(Publication, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.firstname} {self.lastname}"
 
 class Source(models.Model):
     """A source represents any reading material that is added to the database. It can be
@@ -87,7 +93,7 @@ class Source(models.Model):
     Args:
         title (models.CharField): The title of the source.
 
-        takeaway (models.CharField): A short (~200 word) summary of the souce. Basic takeaways from 
+        takeaway (models.TextField): A short summary of the souce. Basic takeaways from 
             reading the source.
 
         date_read (models.DateTimeField): The date that the source was read. 
@@ -103,17 +109,18 @@ class Source(models.Model):
         url (models.URLField): The url for the source if it exists.
 
         topic (models.ManyToManyField): A field that describes the broad topic that the source is related to.
-            it connects to the database model Topic via a Many-to-Many field.
+            it connects to the database model Topic via a Many-to-One field as a Source can have one topic but
+            a topic can have many Sources.
 
     """    
-    title = models.CharField(max_length=50)
-    takeaway = models.CharField(max_length=250)
+    title = models.CharField(max_length=200)
+    takeaway = models.TextField()
     date_read = models.DateTimeField()
     date_published = models.DateTimeField()
     authors = models.ManyToManyField(Author)
     publication = models.ForeignKey(Publication, on_delete=models.SET_NULL, null=True)
     url = models.URLField(null=True)
-    topic = models.ManyToManyField(Topic)
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title

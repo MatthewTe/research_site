@@ -1,10 +1,44 @@
 {% extends "core_layout.html" %}
 {% load static %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'research_core/css/research_index.css' %}">
+{% endblock head %}
+
 {% block body %}
 <div>
-    {% if calendar_heatmap %}
-    {{calendar_heatmap|safe}}
-    {% endif %}
+
+    <div class="intro_header">
+        <div class="header_h1"><h1>What have I read in {{current_year}}?</h1></div>
+        <div class="research-nums-grid">
+            <div class="research-grid-col">
+                <h1>{{num_sources}}</h1>
+                <h3>Sources Read in {{current_year}}</h3>
+            </div>
+            <div class="research-grid-col">
+                {% if sources.count > 0 %}
+                    <h1>{{sources.0.topic}}</h1>
+                {% else %}
+                    <h1>Nothing (lol)</h1>
+                {% endif %}
+                <h3>Was the Last Topic I read about</h3>
+            </div>
+        </div>
+    </div>
+    <div>
+        {% if calendar_heatmap %}
+        {{calendar_heatmap|safe}}
+        {% endif %}    
+    </div>
+    <div class="secondary_chart_grids">
+        <div class="grid_col">
+            {% if source_barchart %}
+            {{source_barchart|safe}}
+            {% endif %}    
+        </div>
+        <div class="grid_col">
+            TODO: Determine Which Bar Chart Conveys the best Information and Make It
+        </div>
+    </div>
 </div>
 {% endblock body %}

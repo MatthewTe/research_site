@@ -1,0 +1,22 @@
+/* Styling the introduction header for the page */ 
+.intro_header{
+    text-align: center;
+    margin: 4vh;
+}
+.header_h1{
+    margin-top: 6vh;
+}
+
+/* A grid that splits the research display counts into a 2 col grid: */
+.research-nums-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.research-nums-grid div {
+    margin-top: 5vh;
+}
+/* The secondary grid for bar chart and Publication/Author Styling: */ 
+.secondary_chart_grids {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

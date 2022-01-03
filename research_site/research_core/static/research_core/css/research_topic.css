@@ -1,0 +1,38 @@
+/* Styling for the main header containing topic and topic description */
+.main_header{
+    margin: 4vh;
+    text-align: center;
+}
+
+/* Main grid styling */
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.grid div {
+    margin: 5vh;
+    text-align: center;
+}
+.grid_col h3{
+    margin-bottom: 3vh;
+}
+.grid ul {
+    list-style: none;
+}
+
+/* Styling for the Paginated Sources displayed per topic */
+.sources_read {
+    margin-top: 4vh;
+}
+
+/* Single Source Div Tag: */
+.source{
+    margin-top: 4vh;
+    text-align: center;
+}
+
+/* Pagination Link Styling: */
+.paginations {
+    text-align: center;
+    margin-top: 5vh;
+}
