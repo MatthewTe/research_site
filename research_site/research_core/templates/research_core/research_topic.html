@@ -19,19 +19,23 @@
     </div>    
     <div class="grid">
         <div class="grid_col">
-            <h3>My Top 3 {{topic.topic}} Sources</h3>
+            <u><h3>Top 3 {{topic.topic}} Authors</h3></u>
             <ul>
-                <li><h4>Test Source 1</h4></li>
-                <li><h4>Test Source 2</h4></li>
-                <li><h4>Test Source 3</h4></li>
+                {% for author in most_read_authors %}  
+                    {% if author.middlename != 'None' %}
+                    <li><h4>{{author.firstname}} {{author.lastname}} - <a href="{{author.publisher.url}}">{{author.publisher.title}}</a> ({{author.num_sources}})</h4></li>
+                    {% else %}
+                    <li><h4> {author.firstname}} {{author.middlename}} {{author.lastname}} - <a href="{{author.publisher.url}}">{{author.publisher.title}}</a> ({{author.num_sources}})</h4></li>
+                    {% endif %}
+                {% endfor %}
             </ul>
         </div>
         <div class="grid_col">
-            <h3>My Top 3 {{topic.topic}} Authors</h3>
+            <u><h3>Top 3 {{topic.topic}} Publishers</h3></u>
             <ul>
-                <li><h4>Test Author 1</h4></li>
-                <li><h4>Test Author 2</h4></li>
-                <li><h4>Test Author 3</h4></li>
+                {% for publisher in most_read_publishers %}
+                <li><a href="{{publisher.url}}"><h4>{{publisher.title}}</a> ({{publisher.num_sources}})</h4></li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -39,6 +43,18 @@
         {% for source in page_obj %}
         <div class="source">
             <h3>{{source.title}}</h3>
+            <p>{{source.takeaway}}</p>
+            <p>Published on: {{source.date_published}}</p>
+            <p> Read on: {{source.date_read}}</p>
+            <p>Authors:
+                {% for author in source.authors.all %}
+                <span>{{author.firstname}}</span>
+                <span>{{author.lastname}}</span>
+                {% endfor %}
+            </p>
+            <p>Published by: {{source.publisher}}</p>
+            <p>{{source.source_type.source_type}}</p>
+
         </div>
         {% endfor %}
 

@@ -14,7 +14,7 @@ import numpy as np
 import datetime
 
 # Importing database models:
-from .models import Source, Topic
+from .models import Source, Topic, Author, Publisher 
 
 
 # Function for generating calendar heatmaps (modified from https://gist.github.com/bendichter/d7dccacf55c7d95aec05c6e7bcf4e66e):
@@ -261,6 +261,12 @@ def research_topic(request, topic: str):
     # Getting page number for pagination of sources and paginating sources:
     page_num = request.GET.get("page")  
     context["page_obj"] = page_objs.get_page(page_num)
+
+    # Using native django counter to query top 3 most read authors and publishers
+    most_read_authors = Author.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
+    most_read_publishers = Publisher.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
+    context["most_read_authors"] = most_read_authors
+    context["most_read_publishers"] = most_read_publishers
 
     # Creating the calendar heatmap via internal functions and converting it to html: 
     z = np.random.randint(3, size=(200,))
