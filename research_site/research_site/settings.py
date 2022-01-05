@@ -111,3 +111,7 @@ STATIC_URL = '/static/'
 
 # Pointing to the Custom User Model:
 AUTH_USER_MODEL = "research_core.CustomUser"
+
+# Media Urls for File Uploads:
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

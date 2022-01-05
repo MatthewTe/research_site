@@ -28,11 +28,17 @@ class Topic(models.Model):
 
     Args:
         topic (models.CharField): The name of the topic.
+        
+        topic_description (models.TextField): The main description of the topic that is used to 
+            add a description of the topic whereever the topic is programatically rendered. 
+
+        topic_img (models.ImageField): The large topic image used for the thumbnail and the default
+            card tags.
 
     """
-    #TODO: Incorpoate Image Uploading for Topic model to create Card Thumbnails and Carousel Imgs
-    
     topic = models.CharField(max_length=50)
+    topic_description = models.TextField(blank=True, null=True)
+    topic_img = models.ImageField(upload_to="research_core/topics/", blank=True, null=True)
 
     def __str__(self):
         return self.topic
@@ -134,9 +140,10 @@ class Source(models.Model):
             it connects to the database model Topic via a Many-to-One field as a Source can have one topic but
             a topic can have many Sources.
 
-    """    
-    #TODO: Incorpoate Image Uploading for Source model to create thumbnails and make homepage dynamic.
+        thumbnail (models.ImageField): The image used a a thumbnail for the source. If there is no thumbnail
+            then best practices is to use the image assocaited with its Topic.
 
+    """    
     title = models.CharField(max_length=200)
     takeaway = models.TextField()
     date_read = models.DateTimeField()
@@ -146,6 +153,7 @@ class Source(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True)
     url = models.URLField(null=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
+    thumbnail = models.ImageField(upload_to="research_core/thumbnails", blank=True, null=True)
 
     def __str__(self):
         return self.title

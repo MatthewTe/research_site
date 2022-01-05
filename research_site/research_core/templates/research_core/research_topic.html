@@ -41,20 +41,34 @@
     </div>
     <div class="sources_read">
         {% for source in page_obj %}
-        <div class="source">
-            <h3>{{source.title}}</h3>
-            <p>{{source.takeaway}}</p>
-            <p>Published on: {{source.date_published}}</p>
-            <p> Read on: {{source.date_read}}</p>
-            <p>Authors:
-                {% for author in source.authors.all %}
-                <span>{{author.firstname}}</span>
-                <span>{{author.lastname}}</span>
-                {% endfor %}
-            </p>
-            <p>Published by: {{source.publisher}}</p>
-            <p>{{source.source_type.source_type}}</p>
-
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-start" src="{% static 'research_core/img/NK_card_img.jpg' %}" alt="...">
+                </div>
+                <div class="col-md-8">
+                    
+                    <div class="card-header">
+                        <span>
+                            {% for author in source.authors.all %}
+                            <button class="btn btn-dark btn-sm" type="button">{{author.firstname}} {{author.lastname}}</button>
+                            {% endfor %}
+                            <div style="float: right;">
+                                <button class="btn btn-info btn-sm" type="button">{{source.publisher}}</button>
+                                <button class="btn btn-secondary btn-sm" type="button">{{source.source_type.source_type}}</button>
+                            </div>                            
+                        </span>
+                    </div>
+                    
+                    <div class="card-body">
+                        <h3 class="card-title">{{source.title}}</h3>
+                        <p class="card-text date-section"><small class="text-muted">Read On: {{source.date_read}}</small></p>
+                        <p class="card-text date-section"><small class="text-muted">Published On: {{source.date_published}}</small></p>
+                        <p class="card-text source-takeaway">{{source.takeaway}}</p>
+                    </div>
+                                                                
+                </div>
+            </div>
         </div>
         {% endfor %}
 

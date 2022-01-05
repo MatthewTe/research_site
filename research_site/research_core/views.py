@@ -17,6 +17,13 @@ import datetime
 from .models import Source, Topic, Author, Publisher 
 
 
+# TODO: Change TextField to have a character limit to avoid overflows of Source cards.
+
+# TODO: Add hex color field to topics & models to allow for dynamic color customization. Add images to Sources but default to 
+# Topic image when none provided.
+
+# TODO: Generate the array of Sources read per day to populate the heatmaps (add custom coloring).
+
 # Function for generating calendar heatmaps (modified from https://gist.github.com/bendichter/d7dccacf55c7d95aec05c6e7bcf4e66e):
 def display_year(z,
     year: int = None,
@@ -177,7 +184,23 @@ def display_years(z, years):
 
 # Renders main site - largely static content:
 def site_index(request):
+    """Renders the site index. Queries data models that are used
+    to dynamically render HTML.
+
+    """
     context = {}
+
+    # Querying topics by number of Sources (only get the top 5 most popular Topics)
+    popular_topics = Topic.objects.annotate(num_sources=Count("source")).order_by("-num_sources")[:5]
+
+    if len(popular_topics) > 0:
+        context["first_topic"] = popular_topics[0]
+        context["topic_iterator"] = range(1, len(popular_topics))
+        
+    else:
+        context["first_topic"] = None
+    context["topics"] = popular_topics[1:5]
+
     return render(request, "research_core/website_index.html", context=context)
 
 # Research Homepage view:

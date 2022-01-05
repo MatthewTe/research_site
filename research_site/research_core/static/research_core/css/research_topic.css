@@ -26,7 +26,8 @@
 
 /* Styling for the Paginated Sources displayed per topic */
 .sources_read {
-    margin-top: 4vh;
+    margin: 4vh;
+
 }
 
 /* Single Source Div Tag: */
@@ -39,7 +40,15 @@
 }
 
 /* Styling for all Source Div Tag Components: */
-
+.card{
+    margin-top: 2vh;
+}
+.date-section{
+    margin-bottom: 0 !important;
+}
+.source-takeaway{ 
+    margin-top: 0.5vh !important;
+}
 
 /* Pagination Link Styling: */
 .paginations {
