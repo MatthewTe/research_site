@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Count
 from django.core.paginator import Paginator
+from django.db.models.functions import TruncDay
 
 # Importing plotly methods:
 import plotly.graph_objs as go
@@ -9,18 +10,13 @@ from plotly.subplots import make_subplots
 
 # Importing data manipulation packages:
 import numpy as np
+import pandas as pd
 
 # Importing date methods:
 import datetime
 
 # Importing database models:
 from .models import Source, Topic, Author, Publisher 
-
-
-# TODO: Change TextField to have a character limit to avoid overflows of Source cards.
-
-# TODO: Add hex color field to topics & models to allow for dynamic color customization. Add images to Sources but default to 
-# Topic image when none provided.
 
 # TODO: Generate the array of Sources read per day to populate the heatmaps (add custom coloring).
 
@@ -29,7 +25,9 @@ def display_year(z,
     year: int = None,
     month_lines: bool = True, 
     fig=None, 
-    row: int = None):
+    row: int = None,
+    color: str = "#76cf63"
+    ):
     """The method that renders a calendar heatmap showing the number of sources per day given 
     an array of Source counts. This method can either be called on its own to generate a calendar
     heatmap for a single year or it can be 'recursively' called by the display_years function to
@@ -49,6 +47,9 @@ def display_year(z,
                 This is necessary as this method is recursively called via the display_years() method.
 
         row (int): The row of the sublot that is used for labeling and the transforming the dataset.
+
+        color (str): The color that the individaul plots would be. This sets the base color used in the
+            colorscale.
 
     """
     if year is None:
@@ -75,7 +76,7 @@ def display_year(z,
         text = [str(date.strftime("%d %b, %Y")) for date in dates_in_year]
     
         #4cc417 green #347c17 dark green
-        colorscale=[[False, '#eeeeee'], [True, '#76cf63']]
+        colorscale=[[False, '#eeeeee'], [True, color]]
         
         # handle end of year
         data = [
@@ -88,7 +89,8 @@ def display_year(z,
                 xgap=3, # this
                 ygap=3, # and this is used to make the grid-like apperance
                 showscale=False,
-                colorscale=colorscale
+                colorscale=colorscale,
+                hoverlabel=dict(align="left")
             )
         ]
         
@@ -182,6 +184,46 @@ def display_years(z, years):
         fig.update_layout(height=250*len(years))
     return fig
 
+def refactor_annual_queryset(queryset, year):
+    """This is a method that inqests a Source queryset and refactors it into 
+    a 1-D array (list) of the number of sources read per day in a year.
+
+    This array is used by the 'display_year' function to create the calendar 
+    heatmap of sources read per year.
+
+    Args: 
+        queryset (Queryset): The queryset of Source objects for the year. Only
+        supports the local Source model
+
+        year (datetime.datetime.date): The current year of the queryset and
+            the calendar heatmap. It is used to build the datetime index.
+
+    Returns: 
+        lst: The 1-D array of source counts for the day. Should always be 365
+            elements.
+
+    """
+    # Annotating the queryset to create datetime and count fields: 
+    year_sources = queryset.annotate(date=TruncDay('date_read')).values(
+        "date").annotate(created_count=Count('id')).order_by("date")
+
+    # Creating a pandas datetime index of each day in the current year: 
+    heatmap_datetime_index = pd.date_range(
+        start=datetime.date(year, 1, 1), 
+        end=(datetime.date(year, 12, 31))
+    )
+    # Full series of only 0 for the year:
+    heatmap_series = pd.Series(data=0, index=heatmap_datetime_index)
+
+    # Replacing the 0 values based on the index values present in the
+    # annotated queryset:
+    # WARNING: This may need to be refactored to be more efficent if speed becomes a problem:
+    for day in year_sources:
+        heatmap_series.loc[day["date"]] = day["created_count"]
+    heatmap_array = heatmap_series.tolist()
+    
+    return heatmap_array
+
 # Renders main site - largely static content:
 def site_index(request):
     """Renders the site index. Queries data models that are used
@@ -217,17 +259,22 @@ def research_main_page(request):
     current_year = datetime.datetime.now().year
     sources = Source.objects.filter(date_read__year=current_year)
 
+    # Using native django counter to query top 3 most read authors and publishers
+    most_read_authors = Author.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
+    most_read_publishers = Publisher.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
     num_sources = len(sources)
     
-    # Adding Source Information to context:
-    context["sources"] = sources
-    context["num_sources"] = num_sources
-    context["current_year"] = current_year
-
     # Creating a bar chart displaying the readings done for each category of research:
     # Querying all topics and the Sources associated with each article:
     topics = [topic.topic for topic in Topic.objects.all()]
     sources_by_topics = [len(Source.objects.filter(topic__topic=topic)) for topic in topics]
+
+    # Adding Source Information to context:
+    context["sources"] = sources
+    context["num_sources"] = num_sources
+    context["current_year"] = current_year
+    context["most_read_authors"] = most_read_authors
+    context["most_read_publishers"] = most_read_publishers
 
     barchart_data = [
         go.Bar(
@@ -250,8 +297,8 @@ def research_main_page(request):
     context["source_barchart"] = barchart_figure
 
     # Creating the calendar heatmap via internal functions and converting it to html: 
-    z = np.random.randint(3, size=(200,))
-    calendar_heatmap = display_year(z).to_html(full_html=False)
+    heatmap_array = refactor_annual_queryset(sources, current_year)
+    calendar_heatmap = display_year(heatmap_array).to_html(full_html=False)
     context["calendar_heatmap"] = calendar_heatmap
 
     return render(request, "research_core/research_index.html", context=context)
@@ -279,7 +326,10 @@ def research_topic(request, topic: str):
     context["topic"] = topic_obj
 
     # Querying the Sources for the Topic:
-    page_objs = Paginator(Source.objects.filter(topic__topic=topic_obj.topic), 3)
+    current_year = datetime.datetime.now().year
+    topic_sources = Source.objects.filter(
+        date_read__year=current_year).filter(topic__topic=topic_obj.topic)
+    page_objs = Paginator(topic_sources, 3)
 
     # Getting page number for pagination of sources and paginating sources:
     page_num = request.GET.get("page")  
@@ -288,12 +338,18 @@ def research_topic(request, topic: str):
     # Using native django counter to query top 3 most read authors and publishers
     most_read_authors = Author.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
     most_read_publishers = Publisher.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
+
+    # TODO: Fix Topic Specific Author and Publisher filtering as it is only providing the top 3 of all total authors/publishers.
+
     context["most_read_authors"] = most_read_authors
     context["most_read_publishers"] = most_read_publishers
-
+    
     # Creating the calendar heatmap via internal functions and converting it to html: 
-    z = np.random.randint(3, size=(200,))
-    calendar_heatmap = display_year(z).to_html(full_html=False)
+    heatmap_array = refactor_annual_queryset(topic_sources, current_year)
+    if topic_obj.topic_color:
+        calendar_heatmap = display_year(heatmap_array, color=topic_obj.topic_color).to_html(full_html=False)
+    else:
+        calendar_heatmap = display_year(heatmap_array).to_html(full_html=False)
     context["calendar_heatmap"] = calendar_heatmap
 
     return render(request, "research_core/research_topic.html", context=context)

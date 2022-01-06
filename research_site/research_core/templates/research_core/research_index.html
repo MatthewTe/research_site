@@ -30,6 +30,30 @@
         {{calendar_heatmap|safe}}
         {% endif %}    
     </div>
+    
+    <div class="grid">
+        <div class="grid_col">
+            <u><h3>Top 3 {{topic.topic}} Authors</h3></u>
+            <ul>
+                {% for author in most_read_authors %}  
+                    {% if author.middlename != 'None' %}
+                    <li><h4>{{author.firstname}} {{author.lastname}} - <a href="{{author.publisher.url}}">{{author.publisher.title}}</a> ({{author.num_sources}})</h4></li>
+                    {% else %}
+                    <li><h4> {author.firstname}} {{author.middlename}} {{author.lastname}} - <a href="{{author.publisher.url}}">{{author.publisher.title}}</a> ({{author.num_sources}})</h4></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="grid_col">
+            <u><h3>Top 3 {{topic.topic}} Publishers</h3></u>
+            <ul>
+                {% for publisher in most_read_publishers %}
+                <li><a href="{{publisher.url}}"><h4>{{publisher.title}}</a> ({{publisher.num_sources}})</h4></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
     <div class="secondary_chart_grids">
         <div class="grid_col">
             {% if source_barchart %}

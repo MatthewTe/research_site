@@ -20,3 +20,22 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+
+/* Borrowed styling from the 'resarch_topic' page: */
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.grid div {
+    margin: 5vh;
+    text-align: center;
+}
+.grid_col h3{
+    margin-bottom: 3vh;
+}
+.grid ul {
+    list-style: none;
+}
+.grid li {
+    margin: 2vh;
+}

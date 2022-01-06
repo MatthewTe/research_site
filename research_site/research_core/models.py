@@ -33,12 +33,15 @@ class Topic(models.Model):
             add a description of the topic whereever the topic is programatically rendered. 
 
         topic_img (models.ImageField): The large topic image used for the thumbnail and the default
-            card tags.
+            card tags
+
+        topic_color (models.CharField): A hex color used to style elements that reference the topic. 
 
     """
     topic = models.CharField(max_length=50)
     topic_description = models.TextField(blank=True, null=True)
     topic_img = models.ImageField(upload_to="research_core/topics/", blank=True, null=True)
+    topic_color = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.topic
@@ -59,11 +62,14 @@ class Publisher(models.Model):
 
         url (models.URLField): The url for the organization.
 
+        publisher_color (models.CharField): A hex color used to style elements that reference the publisher. 
+
     """
     title = models.CharField(max_length=50)
     publisher_description = models.CharField(max_length=200)
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True)
     url = models.URLField(null=True)
+    publisher_color = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -103,8 +109,12 @@ class SourceType(models.Model):
     Args: 
         source_type (models.CharField): The type of souce that will be used to classify the Source 
             object eg: Report.
+
+        source_color (models.CharField): A hex color used to style elements that refer to the source type. 
+
     """
     source_type = models.CharField(max_length=100)
+    source_color = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.source_type
@@ -136,7 +146,7 @@ class Source(models.Model):
 
         url (models.URLField): The url for the source if it exists.
 
-        topic (models.ManyToManyField): A field that describes the broad topic that the source is related to.
+        topic (models.ForeignKey): A field that describes the broad topic that the source is related to.
             it connects to the database model Topic via a Many-to-One field as a Source can have one topic but
             a topic can have many Sources.
 
@@ -153,10 +163,21 @@ class Source(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True)
     url = models.URLField(null=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
-    thumbnail = models.ImageField(upload_to="research_core/thumbnails", blank=True, null=True)
+    thumbnail = models.ImageField(upload_to="research_core/thumbnails", null=True, blank=True, default=None)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        """Overwriting the default save method to set a default ImageField object based on the
+        model's ForeginKey topic image if no thumbnial is provided.
+        """
+        if self.thumbnail:
+            super(Source, self).save(*args, **kwargs)
+        else:
+            self.thumbnail = self.topic.topic_img
+            super(Source, self).save(*args, **kwargs)
+
 
     class Meta:
         ordering = ["-date_published"] 
