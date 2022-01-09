@@ -30,10 +30,13 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'research_home' %}">Research</a>
               </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'bookshelf' %}">Bookshelf</a>
+            </li>
             {% if request.user.is_authenticated == True %}
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Admin</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Admin</a>
+            </li>
             {% endif %}
             </ul>
           </div>

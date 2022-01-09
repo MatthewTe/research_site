@@ -20,7 +20,7 @@
       <div class="carousel-item active">
         <img src="{{first_topic.topic_img.url}}" class="d-block w-100 carousel-img" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h4>{{first_topic.topic}} Research</h4>
+          <a class="carousel-link" href="{% url 'research_topic' topic=first_topic.topic %}"><h4>{{first_topic.topic}} Research</h4></a>
           <p>Some representative placeholder content for the first slide.</p>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <div class="carousel-item">
         <img src="{{topic.topic_img.url}}" class="d-block w-100 carousel-img" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h4>{{topic.topic}} Research</h4>
+          <a class="carousel-link" href="{% url 'research_topic' topic=topic %}"><h4>{{topic.topic}} Research</h4></a>
           <p>Some representative placeholder content for the first slide.</p>
         </div>
       </div>
@@ -47,8 +47,8 @@
 
 <div>
     <div class="into-title-div">
-        <h1>How do we build ideas? How do we make sure our opinions are reflective of an underlying reality?</h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At ea consequatur aspernatur, officia provident nihil illo eveniet vitae perferendis aut, commodi dolore repellendus impedit tempora eligendi suscipit expedita ipsam. Ipsum?</p>
+        <h1>How do I build ideas? How do I make sure my opinions are reflective of an underlying reality?</h1>
+        <p>Sorting through information and becoming informed on complex issues in the world is an incredibly time intensive and difficult process. It involves sorting through the obscene amount of information and perspectives that are now available on almost every topic and distilling this information into a coherent narrative. Searching, aggregating, vetting, fact-checking and synthesizing are all required to truly be informed on any topic that is worth being informed about. I built this site to help me catalogue sources that I read. This site is a personal tool to help me summarize and catalogue my sources, allowing me to see how my understanding develops and where my knowledge of topics are coming from. </p>
         <u><h3>View What I am Actively Researching:</h3></u>
     </div> 
     
@@ -56,6 +56,7 @@
         <div class="row row-cols-1 row-cols-md-2 g-4">
 
             <div class="col">
+              <a class="card-link" href="{% url 'research_topic' topic=first_topic.topic %}">
               <div class="card">
                 <img src="{{first_topic.topic_img.url}}" class="card-img-top card-image-styling" alt="...">
                 <div class="card-body">
@@ -63,10 +64,12 @@
                   <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 </div>
               </div>
+            </a>
             </div>
 
             {% for topic in topics %}
             <div class="col">
+              <a class="card-link" href="{% url 'research_topic' topic=topic%}">
               <div class="card">
                 <img src="{{topic.topic_img.url}}" class="card-img-top card-image-styling" alt="...">
                 <div class="card-body">
@@ -74,6 +77,7 @@
                   <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 </div>
               </div>
+            </a>
             </div>
             {% endfor %}
         </div>
@@ -82,7 +86,7 @@
     <div>
         <div class="into-title-div">
             <u><h3>My Writings, Mostly OP-Eds:</h3></u>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis facere, unde nulla mollitia animi temporibus amet voluptate. Soluta repellat molestiae cum natus nemo ex in nihil laboriosam debitis libero. Rerum.</p>
+            <p>I do also use this site to host my writings on various topics that interest me in or that I think that I can/should realistically contribute to. The topics that I write about track closely with what I am reading about so in the even that someone else ends up reading my articles they can audit my sources to see where I get my information and perspectives from. If you read an idea that seems esoteric or crazy changes are you’ll be able to find the source of the idea in my readings!</p>
         </div>
         
         <div id="carouselWriting" class="carousel slide" data-bs-ride="carousel">

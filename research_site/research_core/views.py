@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.db.models.functions import TruncDay
+from django.http import HttpResponseRedirect
 
 # Importing plotly methods:
 import plotly.graph_objs as go
@@ -259,9 +260,10 @@ def research_main_page(request):
     current_year = datetime.datetime.now().year
     sources = Source.objects.filter(date_read__year=current_year)
 
-    # Using native django counter to query top 3 most read authors and publishers
+    # Using native django counter to query top 3 most read authors and publishers and top 5 Topics:
     most_read_authors = Author.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
     most_read_publishers = Publisher.objects.annotate(num_sources=Count('source')).order_by("-num_sources")[:3]
+    most_popular_topics = Topic.objects.annotate(num_sources=Count("source")).order_by("-num_sources")[:5]
     num_sources = len(sources)
     
     # Creating a bar chart displaying the readings done for each category of research:
@@ -275,6 +277,7 @@ def research_main_page(request):
     context["current_year"] = current_year
     context["most_read_authors"] = most_read_authors
     context["most_read_publishers"] = most_read_publishers
+    context["most_popular_topics"] = most_popular_topics
 
     barchart_data = [
         go.Bar(
@@ -304,7 +307,7 @@ def research_main_page(request):
     return render(request, "research_core/research_index.html", context=context)
 
 # Research Page by Topic:
-def research_topic(request, topic: str):
+def research_topic(request, topic: str = None):
     """View performs much of the same logic as the 'research_main_page' method execpt it
     queries and renders data specifically for a single topic. It is seperated from the
     main research page as opoosed to being a query param in 'research_main_page' because
@@ -329,7 +332,7 @@ def research_topic(request, topic: str):
     current_year = datetime.datetime.now().year
     topic_sources = Source.objects.filter(
         date_read__year=current_year).filter(topic__topic=topic_obj.topic)
-    page_objs = Paginator(topic_sources, 3)
+    page_objs = Paginator(topic_sources.order_by("-date_read"), 3)
 
     # Getting page number for pagination of sources and paginating sources:
     page_num = request.GET.get("page")  
@@ -353,3 +356,31 @@ def research_topic(request, topic: str):
     context["calendar_heatmap"] = calendar_heatmap
 
     return render(request, "research_core/research_topic.html", context=context)
+
+# View for a specific source:
+def source_view(request, id: int = None):
+    """Method that is used to render all the information for a single Source. It queries the Source
+    object based on its priamry key that is passed through a url param.
+
+    Args:
+        id (int): The primary key that is used to query the single Source object being displayed on the page.
+            This is returned from the url. 
+    """
+    context = {}
+    # If no pk is produced, redirecting to previous url:
+    if id is None:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    source = Source.objects.get(id=id)
+    if source == None:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    context["source"] = source
+
+    return render(request, "research_core/source_page.html", context=context)
+
+# TODO: Add Bookshelf functionality to the view:
+def bookshelf(request):
+    """
+    """
+    context = {}
+    return render(request, "research_core/bookshelf.html", context=context)

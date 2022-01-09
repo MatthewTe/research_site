@@ -1,0 +1,7 @@
+django
+numpy
+pandas
+plotly
+gunicorn
+pillow
+whitenoise

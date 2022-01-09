@@ -1,0 +1,53 @@
+{% extends "core_layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'research_core/css/source_page.css' %}">
+{% endblock head %}
+
+{% block body %}
+<div class="source-body">
+    
+    <a class="title-link" href="{{source.url}}"><h1 class="main-title">{{source.title}}</h1></a>
+        
+    <div>
+        <span>
+            {% if source.publisher.publisher_color %}
+            <a href="{{source.publisher.url}}" class="btn btn-info publisher-btn"
+            style="--publisher-color: {{source.publisher.publisher_color}};  background-color: var(--publisher-color) !important; border-color: var(--publisher-color) !important;"    
+            type="button">{{source.publisher}}</a>
+            {% else %}
+            <a href="{{source.publisher.url}}" class="btn btn-info publisher-btn" type="button">{{source.publisher}}</a>
+            {% endif %}    
+
+            {% if source.topic.topic_color %}
+            <button class="btn btn-info publisher-btn"
+            style="--topic-color: {{source.topic.topic_color}};  background-color: var(--topic-color) !important; border-color: var(--topic-color) !important;"    
+            type="button">{{source.topic.topic}}</button>
+            {% else %}
+            <button class="btn btn-secondary source-btn" type="button">{{source.topic.topic}}</button> 
+            {% endif %}
+
+            {% if source.source_type.source_color %}
+            <button class="btn btn-secondary source-btn" 
+            style="--source-color: {{source.source_type.source_color}}; background-color: var(--source-color) !important; border-color: var(--source-color) !important;"
+            type="button">{{source.source_type.source_type}}</button>
+            {% else %}
+            <button class="btn btn-secondary source-btn" type="button">{{source.source_type.source_type}}</button>
+            {% endif %}
+        </span>
+    </div>
+
+    {% for author in source.authors.all %}
+    <span><button class="btn btn-dark author-btn" type="button">{{author.firstname}} {{author.lastname}}</button></span>
+    {% endfor %}
+    
+    <p class="text-muted">Read on: {{source.date_read}}</p>
+    <p class="text-muted">Published on {{source.date_published}}</p>
+
+    <img src="{{source.thumbnail.url}}" class="img-fluid" alt="">
+
+    <p class="fs-5 takeaway-style">{{source.takeaway}}</p>
+
+</div>
+{% endblock body %}

@@ -11,9 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y8l2^1t%c*jrb*oles)9#5pk_)#=w&#)@x4b4l@s#)5-b%9-+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = False
+DEBUG = True   
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,7 +68,7 @@ WSGI_APPLICATION = 'research_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'database/db.sqlite3',
     }
 }
 
@@ -111,6 +113,12 @@ STATIC_URL = '/static/'
 
 # Pointing to the Custom User Model:
 AUTH_USER_MODEL = "research_core.CustomUser"
+
+# Static File Configuration for development:
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+# Static File Configuration for Production:
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 
 # Media Urls for File Uploads:
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')

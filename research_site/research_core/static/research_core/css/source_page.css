@@ -1,0 +1,25 @@
+/* Styling for Source HTML elements: */
+.source-body{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.main-title{
+    margin-top: 3vh;
+}
+.title-link{
+    text-decoration: none;
+    color: inherit;
+}
+.author-btn{
+    margin-top: 1vh;
+    margin-bottom: 3vh;
+}
+.takeaway-style{
+    margin-top: 4vh;
+    text-align: justify;
+    margin-bottom: 4vh;
+}
+.text-muted{
+    margin-bottom: 1vh !important;
+}

@@ -27,7 +27,6 @@
 /* Styling for the Paginated Sources displayed per topic */
 .sources_read {
     margin: 4vh;
-
 }
 
 /* Single Source Div Tag: */
@@ -42,6 +41,11 @@
 .card{
     margin-top: 2vh;
 }
+.invisible-link{
+    text-decoration: none;
+    color: inherit;
+}
+
 .date-section{
     margin-bottom: 0 !important;
 }

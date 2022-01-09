@@ -3,6 +3,14 @@
     height: 60vh;
     object-fit: cover;
 }
+.carousel-link{
+    text-decoration: none !important;
+    color: inherit;
+}
+.carousel-link:hover{
+    color:inherit;
+}
+
 /* Styling for the intro text div */
 .into-title-div{
     margin: 5vh;
@@ -23,8 +31,13 @@
     height: 30vh;
     object-fit: cover;
 }
+.card-link{
+    text-decoration: none !important;
+    color: black;
+}
 
 /* Styling for the blog carousel */
 #carouselWriting{
     margin-bottom: 1vh;
 }
+
