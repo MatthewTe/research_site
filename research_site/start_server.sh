@@ -12,6 +12,6 @@ python manage.py migrate
 
 # Starting Server:
 echo "Running Server"
-gunicorn research_site.wsgi:application --bind 0.0.0.0:80
+gunicorn research_site.wsgi:application --bind 0.0.0.0:8000
 
 #python manage.py runserver 0.0.0.0:80
