@@ -7,6 +7,7 @@ python manage.py collectstatic --noinput
 # Applying Database Migrations:
 echo "Making Database Migrations"
 python manage.py makemigrations
+python manage.py migrate research_core
 python manage.py migrate 
 
 # Starting Server:
