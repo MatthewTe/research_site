@@ -121,6 +121,7 @@ AUTH_USER_MODEL = "research_core.CustomUser"
 # Static File Configuration for Production:
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+"""
 from .cdn.conf import (
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY,
@@ -130,7 +131,8 @@ from .cdn.conf import (
     AWS_LOCATION,
     DEFAULT_FILE_STORAGE,
     STATICFILES_STORAGE
-)   
+)  
+""" 
 
 # Media Urls for File Uploads:
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media/')
