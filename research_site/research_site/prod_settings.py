@@ -3,19 +3,14 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y8l2^1t%c*jrb*oles)9#5pk_)#=w&#)@x4b4l@s#)5-b%9-+h'
-
-# SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
-#DEBUG = True   
 
-ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://localhost']
+ALLOWED_HOSTS = ["159.223.180.214"]
+
+# HTTPS Settings:
+CSRF_COOKIE_SECURE = False
+#CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', 'http://localhost']
 
 # Application definition
 INSTALLED_APPS = [
@@ -65,7 +60,6 @@ WSGI_APPLICATION = 'research_site.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
     'default': {
@@ -76,8 +70,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -95,8 +87,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -108,16 +98,12 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # Pointing to the Custom User Model:
 AUTH_USER_MODEL = "research_core.CustomUser"
 
 # Static File Configuration for development:
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
 # Static File Configuration for Production:
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -135,9 +121,3 @@ from .cdn.conf import (
 # Media Urls for File Uploads:
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
-
-# For development:
-CSRF_COOKIE_SECURE = False
-
-
-#https://www.youtube.com/watch?v=AeCZvXZn5dg

@@ -1,4 +1,6 @@
 django
+django-storages
+boto3
 numpy
 pandas
 plotly

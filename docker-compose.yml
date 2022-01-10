@@ -3,24 +3,25 @@ services:
   research_site:
     build: .
     volumes: 
-      - ~/staticroot:/staticroot
-      - ~/media:/media
       - ~/database:/database
     container_name: research_site
-    networks: 
-      - research_site_network
-    
-  nginx:
-    build: ./nginx
-    volumes: 
-      - ~/staticroot:/staticroot
-    networks: 
-      - research_site_network
+    env_file: 
+      - .env
     ports: 
-      - "80:80"
-    depends_on:
-      - research_site
+      - "8000:8000"
+
+#  nginx:
+#    build: ./nginx
+#    volumes: 
+#      - ~/staticroot:/staticroot
+#    networks: 
+#      - research_site_network
+#    ports: 
+#      - "80:80"
+#    depends_on:
+#      - research_site
+
 
 # Network Config:
-networks:
-  research_site_network: 
+#networks:
+#  research_site_network: 
