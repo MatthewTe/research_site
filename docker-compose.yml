@@ -1,11 +1,29 @@
 version: "3.9"
 services:
+
   research_site:
     build: .
-    volumes: 
-      - ~/database/:/database
+    networks: 
+      - research-site-network
     container_name: research_site
     env_file: 
       - .env
     ports: 
       - "80:80"
+  
+  database:
+    container_name: django_research_db
+    image: postgres
+    env_file: 
+      - .env
+    volumes: 
+      - database-data:/var/lib/postgresql/data/
+    restart: always
+    networks: 
+      - research-site-network
+      
+networks: 
+  research-site-network:
+
+volumes:
+  database-data:

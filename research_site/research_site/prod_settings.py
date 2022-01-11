@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 
-ALLOWED_HOSTS = ["159.223.180.214", "django"]
+ALLOWED_HOSTS = ["159.223.180.214", "django", "*"]
 
 # HTTPS Settings:
 CSRF_COOKIE_SECURE = False
@@ -63,11 +63,14 @@ WSGI_APPLICATION = 'research_site.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'database/db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ["POSTGRES_DB"],
+        'USER': os.environ["POSTGRES_USER"],
+        'PASSWORD': os.environ["POSTGRES_PASSWORD"],
+        'HOST': "django_research_db",
+        'PORT': os.environ["POSTGRES_PORT"]
     }
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

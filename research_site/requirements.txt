@@ -7,3 +7,4 @@ plotly
 gunicorn
 pillow
 whitenoise
+psycopg2
