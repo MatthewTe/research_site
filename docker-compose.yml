@@ -3,20 +3,9 @@ services:
   research_site:
     build: .
     volumes: 
-      - ~/database/:research_site/database/
+      - ~/database/:/database
     container_name: research_site
     env_file: 
       - .env
-  nginx:
-    build: ./nginx
-    networks: 
-      - research_site_network
     ports: 
       - "80:80"
-    depends_on:
-      - research_site
-
-
-#Network Config:
-networks:
-  research_site_network: 
