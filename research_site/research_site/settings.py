@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y8l2^1t%c*jrb*oles)9#5pk_)#=w&#)@x4b4l@s#)5-b%9-+h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 #DEBUG = True   
 
 ALLOWED_HOSTS = ["*"]
@@ -25,9 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Thrid-Party:
-    "storages",
 
     # Installing Research Web Core:
     'research_core'
@@ -140,6 +137,3 @@ MEDIA_URL = '/media/'
 
 # For development:
 CSRF_COOKIE_SECURE = False
-
-
-#https://www.youtube.com/watch?v=AeCZvXZn5dg
