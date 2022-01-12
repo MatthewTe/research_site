@@ -1,6 +1,8 @@
 {% extends "core_layout.html" %}
 {% load static %}
 
+{% block title %}{{topic.topic}} Index{% endblock title %}
+
 {% block head %}
     <link rel="stylesheet" href="{% static 'research_core/css/research_index.css' %}">
 {% endblock head %}
