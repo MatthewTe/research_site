@@ -1,0 +1,18 @@
+{% extends "core_layout.html" %}
+{% load static %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}
+{% endblock head %}
+
+{% block body %}
+<div>
+    <h1>{{blog_post.title}}</h1>
+    <img src="{{blog_post.blog_thumbnail.url}}" alt="">
+    <p>{{blog_post.published_at}}</p>
+    <p>{{blog_post.last_updated}}</p>
+    <h2>{{blog_post.topic.topic}}</h2>
+    {{blog_post.content|safe}}
+</div>
+{% endblock body %}

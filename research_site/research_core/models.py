@@ -178,6 +178,6 @@ class Source(models.Model):
             self.thumbnail = self.topic.topic_img
             super(Source, self).save(*args, **kwargs)
 
-
     class Meta:
         ordering = ["-date_published"] 
+        verbose_name_plural = "Blog Posts" 

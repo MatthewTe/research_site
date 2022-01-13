@@ -26,8 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third Party Apps:
+    "tinymce",
+
     # Installing Research Web Core:
-    'research_core'
+    'research_core',
+    'blog'
 ]
 
 MIDDLEWARE = [
