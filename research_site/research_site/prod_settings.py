@@ -23,9 +23,11 @@ INSTALLED_APPS = [
 
     # Thrid-Party:
     "storages",
+    "tinymce",
 
     # Installing Research Web Core:
-    'research_core'
+    'research_core',
+    'blog'
 ]
 
 MIDDLEWARE = [
