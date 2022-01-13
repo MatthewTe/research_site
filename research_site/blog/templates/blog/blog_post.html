@@ -4,15 +4,22 @@
 {% block title %}{% endblock title %}
 
 {% block head %}
+<link rel="stylesheet" href="{% static 'blog/css/blog_post.css' %}">
 {% endblock head %}
 
 {% block body %}
-<div>
-    <h1>{{blog_post.title}}</h1>
-    <img src="{{blog_post.blog_thumbnail.url}}" alt="">
-    <p>{{blog_post.published_at}}</p>
-    <p>{{blog_post.last_updated}}</p>
-    <h2>{{blog_post.topic.topic}}</h2>
-    {{blog_post.content|safe}}
+<div class="blog-post-home">
+    
+    <h1 class="main-title">{{blog_post.title}}</h1>
+    <p class="text-muted updated-paragraph">Published on: {{blog_post.published_at}}</p>
+    <p class="text-muted">Updated on: {{blog_post.last_updated}}</p>
+    
+    <hr>
+    <img class="img-fluid" src="{{blog_post.blog_thumbnail.url}}" alt="">
+    <hr>
+    <div class="main-blog-content">
+        {{blog_post.content|safe}}
+    </div>
+    
 </div>
 {% endblock body %}

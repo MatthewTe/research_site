@@ -1,7 +1,7 @@
 {% extends "core_layout.html" %}
 {% load static %}
 
-{% block title %}Articles{% endblock title %}
+{% block title %}Blog{% endblock title %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'blog/css/blog_index.css' %}">
@@ -9,6 +9,72 @@
 
 {% block body %}
 <div class="main-body">
-    <h1>Blog Posts Homepage Coming Soon</h1>
+    <h1>My Writings</h1>
+
+    <ul class="nav nav-pills card-header-pills">
+        {% for topic in topics %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog_category' topic=topic.topic %}">{{topic.topic}}</a>
+          </li>  
+        {% endfor %}
+    </ul>
+
+    <form id="blog-search">
+        <div class="mb-3">
+            <input type="text" name="blog-search" id="blogSearch" class="form-control">
+        </div>
+        <hr>
+    </form>
+
+    {% for post in page_obj %}
+    <div class="post-container">
+
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{post.blog_thumbnail.url}}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+            <div class="card-body">
+                <a class="blog-link" href="{% url 'blog_post' slug=post.slug %}"><h5 class="card-title">{{post.title}}</h5></a>
+
+                {% if post.topic.topic_color %}
+                <button class="btn btn-dark btn-sm topic-btn"
+                style="--topic-color: {{post.topic.topic_color}};  background-color: var(--topic-color) !important; border-color: var(--topic-color) !important;"    
+                type="button">{{post.topic.topic}}</button>
+                {% else %}
+                <button class="btn btn-dark btn-sm publisher-btn" type="button">{{post.topic.topic}}</button>
+                {% endif %}
+                
+                <p class="card-text text-muted updated-style">Last Updated: {{post.last_updated}}</p>
+                <p class="card-text text-muted published-style">Published at: {{post.published_at}}</p>
+            
+            </div>
+            </div>
+    
+            <hr class="post-line">
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+    <div class="paginations">
+        <span class="">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
 </div>
 {% endblock body %}

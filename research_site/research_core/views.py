@@ -332,7 +332,7 @@ def research_topic(request, topic: str = None):
     current_year = datetime.datetime.now().year
     topic_sources = Source.objects.filter(
         date_read__year=current_year).filter(topic__topic=topic_obj.topic)
-    page_objs = Paginator(topic_sources.order_by("-date_read"), 3)
+    page_objs = Paginator(topic_sources.order_by("-date_read"), 6)
 
     # Getting page number for pagination of sources and paginating sources:
     page_num = request.GET.get("page")  

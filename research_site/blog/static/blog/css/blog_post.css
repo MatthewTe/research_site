@@ -1,0 +1,20 @@
+/* Stying for all the main elements of a blog post */
+.blog-post-home{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.updated-paragraph{
+    margin-bottom: 0 !important;
+}
+.main-title{
+    margin-top: 5vh;
+}
+
+/* Styling for the main blog content HTML - TinyMCE */
+.main-blog-content{
+    margin-top: 4vh;
+}
+
+p{
+    text-align: justify;
+}
