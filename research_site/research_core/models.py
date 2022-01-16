@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# Importing third Party Packages:
+from tinymce import models as tinymce_models
+
 # Custom User for Best Practices:
 class CustomUser(AbstractUser):
     pass
@@ -128,7 +131,7 @@ class Source(models.Model):
     Args:
         title (models.CharField): The title of the source.
 
-        takeaway (models.TextField): A short summary of the souce. Basic takeaways from 
+        takeaway (tinymce_models.HTMLField): A short summary of the souce. Basic takeaways from 
             reading the source.
 
         date_read (models.DateTimeField): The date that the source was read. 
@@ -155,7 +158,7 @@ class Source(models.Model):
 
     """    
     title = models.CharField(max_length=200)
-    takeaway = models.TextField()
+    takeaway = tinymce_models.HTMLField()
     date_read = models.DateTimeField()
     date_published = models.DateTimeField()
     authors = models.ManyToManyField(Author)
@@ -180,4 +183,3 @@ class Source(models.Model):
 
     class Meta:
         ordering = ["-date_published"] 
-        verbose_name_plural = "Blog Posts" 
