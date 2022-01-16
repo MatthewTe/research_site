@@ -81,7 +81,11 @@
                         <a class="invisible-link" href="{% url 'source_page' id=source.id %}"><h3 class="card-title">{{source.title}}</h3></a>
                         <p class="card-text date-section"><small class="text-muted">Read On: {{source.date_read}}</small></p>
                         <p class="card-text date-section"><small class="text-muted">Published On: {{source.date_published}}</small></p>
-                        <p class="card-text source-takeaway">{{ source.takeaway|truncatewords:65 }}</p>
+                        <div>
+                        {% with content=source.takeaway|truncatewords:65 %}
+                        <p class="card-text source-takeaway">{{ content|safe}}</p>
+                        {% endwith %}
+                        </div>
                     </div>
                                                                 
                 </div>

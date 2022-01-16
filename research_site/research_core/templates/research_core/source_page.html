@@ -49,7 +49,7 @@
 
     <img src="{{source.thumbnail.url}}" class="img-fluid" alt="">
 
-    <p class="fs-5 takeaway-style">{{source.takeaway}}</p>
+    <p class="fs-5 takeaway-style">{{source.takeaway|safe}}</p>
 
 </div>
 {% endblock body %}
