@@ -41,12 +41,13 @@
             </ul>
         </div>
     </div>
+    
     <div class="sources_read">
         {% for source in page_obj %}
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img class="img-fluid rounded-start" src="{{source.thumbnail.url}}" alt="{{source.topic.topic_img.url}}">
+                    <img class="img-fluid" src="{{source.thumbnail.url}}" alt="{{source.topic.topic_img.url}}">
                 </div>
                 <div class="col-md-8">
                     

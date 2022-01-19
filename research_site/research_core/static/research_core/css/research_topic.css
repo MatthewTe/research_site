@@ -46,6 +46,13 @@
     color: inherit;
 }
 
+/* Image Styling for the thumbnail: */
+.img-fluid{
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
 .date-section{
     margin-bottom: 0 !important;
 }
