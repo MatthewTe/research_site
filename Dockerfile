@@ -17,7 +17,7 @@ WORKDIR /research_site
 
 # Installing python packages:
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-USER django_user
+#USER django_user
 
 # Configuring and starting the Django Project via a bash script: 
 ENTRYPOINT ["sh", "start_server.sh"]
